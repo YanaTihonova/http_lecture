@@ -1,0 +1,20 @@
+{
+  "name": "http_course_for_fpmi",
+  "version": "1.0.0",
+  "description": "follow that tutorial for your next task",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuristsepaniuk/http_course_for_fpmi.git"
+  },
+  "author": "ystsepaniuk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yuristsepaniuk/http_course_for_fpmi/issues"
+  },
+  "homepage": "https://github.com/yuristsepaniuk/http_course_for_fpmi#readme",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2"
+  }
+}

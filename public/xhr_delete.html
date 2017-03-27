@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>HTTP GET</title>
+    </head>
+    <body>
+        <h1>HTTP DELETE</h1>
+        <h2>HTTP DELETE using xhr!</h2>
+        <button id="delete_user">DELETE USER WITH ID 2 via query string</button>
+        <button id="delete_user_via_body">DELETE USER WITH ID 3 via body</button>
+        <button id="delete_user_via_slug">DELETE USER WITH ID 4 via slug</button>
+        
+        <div id="resId"></div>
+
+        <hr>
+        <h2>Don't use DELETE in form submission!!!</h2>
+
+        <script type="text/javascript">
+            
+            // '/user?id=bla' type request
+            document.getElementById('delete_user').addEventListener('click', function () {
+                var oReq = new XMLHttpRequest();
+                oReq.addEventListener('load', function () {
+                    document.getElementById('resId').textContent = this.responseText.substr(0, 100);
+                });
+                oReq.open('DELETE', '/user?id=2');
+
+                // no body to send
+                oReq.send();
+            });
+
+            // '/user' type request
+            document.getElementById('delete_user_via_body').addEventListener('click', function () {
+                var oReq = new XMLHttpRequest();
+                oReq.addEventListener('load', function () {
+                    document.getElementById('resId').textContent = this.responseText.substr(0, 100);
+                });
+                oReq.open('DELETE', '/user');
+
+                // very important!!! we should tell what kind of body we send
+                oReq.setRequestHeader('content-type', 'application/json');
+
+                // transform object to string
+                const body = JSON.stringify({
+                    id: 3
+                });
+
+                // sent request body here as a string
+                oReq.send(body);
+            });
+
+            // '/user/:id' type request
+            document.getElementById('delete_user_via_slug').addEventListener('click', function () {
+                var oReq = new XMLHttpRequest();
+                oReq.addEventListener('load', function () {
+                    document.getElementById('resId').textContent = this.responseText.substr(0, 100);
+                });
+                oReq.open('DELETE', '/user/4');
+
+                // no body to send
+                oReq.send();
+            });
+
+        </script>
+    </body>
+</html>

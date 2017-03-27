@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>HTTP GET</title>
+    </head>
+    <body>
+        <h1>HTTP PATCH</h1>
+        <h2>HTTP PATCH using xhr!</h2>
+        <button id="patch_user">UPDATE USER WITH ID 1</button>
+        
+        <div id="resId"></div>
+
+        <hr>
+        <h2>Don't use PATCH in form submission!!!</h2>
+
+        <script type="text/javascript">
+            
+            // '/user' type request
+            document.getElementById('patch_user').addEventListener('click', function () {
+                var oReq = new XMLHttpRequest();
+                oReq.addEventListener('load', function () {
+                    document.getElementById('resId').textContent = this.responseText.substr(0, 100);
+                });
+                oReq.open('PATCH', '/user');
+
+                // very important!!! we should tell what kind of body we send
+                oReq.setRequestHeader('content-type', 'application/json');
+
+                // transform object to string
+                const body = JSON.stringify({
+                    id: 1,
+                    firstName: 'yuri'
+                });
+
+                // sent request body here as a string
+                oReq.send(body);
+            });
+
+        </script>
+    </body>
+</html>

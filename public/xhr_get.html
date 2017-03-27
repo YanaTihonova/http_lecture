@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>HTTP GET</title>
+    </head>
+    <body>
+        <h1>HTTP GET using xhr!</h1>
+        <button id="get_all">GET ALL USERS</button>
+        <button id="get_user_1">GET USER WITH QUERY</button>
+        <button id="get_user_2">GET USER NO QUERY</button>
+        <button id="get_user_3">GET USER BUT NOT AUTHORIZED</button>
+        <button id="get_user_4">TRY CRASH SERVER DOWN 500</button>
+        
+        <div id="resId">Text to replace after clicking!</div>
+
+        <script type="text/javascript">
+            
+            // '/user' type request
+            document.getElementById('get_all').addEventListener('click', function () {
+                var oReq = new XMLHttpRequest();
+
+                function handler () {
+                    document.getElementById('resId').textContent = this.responseText.substr(0, 100);
+                    cleanUp();
+                }
+
+                // SHOW YOU HOW TO DO IT ONCE, please follow
+                function cleanUp () {
+                    oReq.removeEventListener('load', handler);
+                }
+
+                oReq.addEventListener('load', handler);
+
+                oReq.open('GET', '/user');
+                oReq.send();
+            });
+
+            // '/user?id=1' type request
+            document.getElementById('get_user_1').addEventListener('click', function () {
+                var oReq = new XMLHttpRequest();
+
+                // No cleanup to shorten it! Please use cleanup!
+                oReq.addEventListener('load', function () {
+                    document.getElementById('resId').textContent = this.responseText;
+                });
+                // see how we add query param id, then we add more params
+                oReq.open('GET', '/user?id=1&smth_else=ok&one_more=not_ok');
+                oReq.send();
+            });
+
+            // '/user/1' type request
+            document.getElementById('get_user_2').addEventListener('click', function () {
+                var oReq = new XMLHttpRequest();
+                oReq.addEventListener('load', function () {
+                    document.getElementById('resId').textContent = this.responseText;
+                });
+
+                // see how we use id in a url slug
+                oReq.open('GET', '/user/1');
+                oReq.send();
+            });
+
+            
+            document.getElementById('get_user_3').addEventListener('click', function () {
+                var oReq = new XMLHttpRequest();
+                function handler () {
+                    document.getElementById('resId').textContent = `we have got ${this.status}`;
+                    cleanUp();
+                }
+                function cleanUp () {
+                    oReq.removeEventListener('load', handler);    
+                }
+
+                oReq.addEventListener('load', handler);
+
+                // see how we use id in a url slug
+                oReq.open('GET', '/user401/2');
+                oReq.send();
+            });
+
+            // '/user/1' type request
+            document.getElementById('get_user_4').addEventListener('click', function () {
+                var oReq = new XMLHttpRequest();
+                function handler () {
+                    document.getElementById('resId').textContent = `we have got ${this.status}`;
+                    cleanUp();
+                }
+                function cleanUp () {
+                    oReq.removeEventListener('load', handler);    
+                }
+
+                oReq.addEventListener('load', handler);
+
+                // see how we use id in a url slug
+                oReq.open('GET', '/user500/2');
+                oReq.send();
+            });
+
+        </script>
+    </body>
+</html>
